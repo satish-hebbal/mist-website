@@ -1,0 +1,23 @@
+/* Custom Scrollbar Styles with CSS Variables */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track, #1f1f1f);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, #312943);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover, #372f45);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, #484848) var(--scrollbar-track, #1f1f1f);
+}
