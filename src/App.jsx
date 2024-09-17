@@ -45,7 +45,7 @@ const FloatingBoxes = ({ darkMode, multiSelection, handleMultiChange }) => {
   };
 
   return (
-    <div className="absolute top-0 right-0 w-full h-full pointer-events-none overflow-x-hidden">
+    <div className="absolute top-0 right-[-50px] w-full h-full pointer-events-none overflow-x-hidden">
       <div className="absolute top-[120px] right-[-10px] w-96 h-10 bg-transparent z-30 pointer-events-auto">
         <TextBox darkMode={darkMode} />
       </div>
@@ -61,7 +61,7 @@ const FloatingBoxes = ({ darkMode, multiSelection, handleMultiChange }) => {
           darkMode={darkMode}
         />
       </div>
-      <div className="absolute top-[355px] right-14 w-10 h-10 bg-transparent z-10 pointer-events-auto">
+      <div className="absolute top-[355px] right-20 w-10 h-10 bg-transparent z-10 pointer-events-auto">
         <AniToggle isToggled={isOn} onToggle={toggleSwitch}/>
       </div>
       <div className="absolute w-[800px] h-[200px] top-[100px] rotate-45 right-[-140px] bg-violet-500 opacity-10 blur-3xl rounded-full"></div>
@@ -138,7 +138,7 @@ function App() {
   };
 
   return (
-    <main className="container mx-auto pt-20 px-10 relative">
+    <main className="container mx-auto pt-[80px] px-8 relative ">
       <FloatingBoxes 
         darkMode={isDarkMode ? 1 : 0}
         multiSelection={multiSelection}

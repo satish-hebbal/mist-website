@@ -31,7 +31,7 @@ const Layout = () => {
   return (
     <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-zinc-950 text-zinc-500' : 'bg-gray-100 text-zinc-900'}`} style={bgStyle}>
       <Navigation isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      <main className="container mx-auto flex-grow mb-16">
+      <main className="container mx-auto flex-grow mb-8 overflow-x-hidden">
         <Outlet context={[isDarkMode, toggleDarkMode]} />
       </main>
       <Footer isDarkMode={isDarkMode} />
