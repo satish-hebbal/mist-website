@@ -15,26 +15,21 @@ import {
 import { useOutletContext } from 'react-router-dom';
 import AniToggle from './AniToggle'
 import mistImage from './assets/Mist.png';
-import BGball from './BGball'; 
 
-const FloatingBoxes = ({ darkMode, multiSelection, handleMultiChange }) => {
-  const options = ['Time travel', 'Fly solo', 'Speak to animals', 'Shape-shift'];
-  
-  const [isOn, setIsOn] = useState(false);
+const ScrollingComponents = ({ darkMode }) => {
+  const [multiSelectValue, setMultiSelectValue] = useState([]);
+  const [selectedRadioOption, setSelectedRadioOption] = useState('');
   const [checkboxes, setCheckboxes] = useState({
-    Pencil: false,
-    Brush: false,
+    'Checkbox Option 1': false,
+    'Checkbox Option 2': false,
   });
 
-  const [selectedOption, setSelectedOption] = useState('');
-  const radioOptions = ['Aurat', 'Mard'];
-
-  const handleRadioChange = (option) => {
-    setSelectedOption(option);
+  const handleMultiSelectChange = (newValue) => {
+    setMultiSelectValue(newValue);
   };
 
-  const toggleSwitch = () => {
-    setIsOn(!isOn);
+  const handleRadioChange = (option) => {
+    setSelectedRadioOption(option);
   };
 
   const handleCheckboxChange = (option) => {
@@ -44,52 +39,50 @@ const FloatingBoxes = ({ darkMode, multiSelection, handleMultiChange }) => {
     }));
   };
 
-  return (
-    <div className="absolute top-0 right-[-50px] w-full h-full pointer-events-none overflow-x-hidden">
-      <div className="absolute top-[120px] right-[-10px] w-96 h-10 bg-transparent z-30 pointer-events-auto">
-        <TextBox darkMode={darkMode} />
-      </div>
-      <div className="absolute top-[175px] right-[-60px] w-96 h-24 bg-transparent z-20 pointer-events-auto">
-        <TextArea darkMode={darkMode} />
-      </div>
-      <div className="absolute top-[175px] right-[335px] w-96 h-10 bg-transparent z-20 pointer-events-auto">
-      <MultiSelectOption
-          options={options}
-          value={multiSelection}
-          onChange={handleMultiChange}
-          placeholder="Select multiple options"
-          darkMode={darkMode}
-        />
-      </div>
-      <div className="absolute top-[355px] right-20 w-10 h-10 bg-transparent z-10 pointer-events-auto">
-        <AniToggle isToggled={isOn} onToggle={toggleSwitch}/>
-      </div>
-      <div className="absolute w-[800px] h-[200px] top-[100px] rotate-45 right-[-140px] bg-violet-500 opacity-10 blur-3xl rounded-full"></div>
+  const radioOptions = ['Radio Option 1', 'Radio Option 2'];
 
-      <div className="absolute flex flex-col gap-2 top-[40px] right-14  w-38 h-10 bg-transparent z-50 pointer-events-auto">
-      {radioOptions.map((option) => (
-                  <div key={option} className="mt-2">
-                    <RadioButton
-                      label={option}
-                      checked={selectedOption === option}
-                      onChange={() => handleRadioChange(option)}
-                      name="updateFrequency"
-                      darkMode={darkMode}
-                    />
-                  </div>
-                ))}
-      </div>
-      <div className="absolute flex  gap-4 top-[305px] right-[245px]  w-20 h-10 bg-transparent z-50 pointer-events-auto">
-      {Object.keys(checkboxes).map((option) => (
-                  <CheckBox
-                    key={option}
-                    label={`${option}`}
-                    checked={checkboxes[option]}
-                    onChange={() => handleCheckboxChange(option)}
-                    darkMode={darkMode}
-                    
-                  />
-                ))}
+  const components = [
+    { type: TextBox, props: { placeholder: 'Enter text', darkMode } },
+    { type: TextArea, props: { placeholder: 'Enter description', darkMode } },
+    { type: MultiSelectOption, props: {
+      options: ['Option 1', 'Option 2', 'Option 3'],
+      value: multiSelectValue,
+      onChange: handleMultiSelectChange,
+      placeholder: 'Select options',
+      darkMode
+    }},
+    ...radioOptions.map(option => ({
+      type: RadioButton,
+      props: {
+        label: option,
+        checked: selectedRadioOption === option,
+        onChange: () => handleRadioChange(option),
+        name: "scrollingRadioGroup",
+        darkMode
+      }
+    })),
+    ...Object.keys(checkboxes).map(option => ({
+      type: CheckBox,
+      props: {
+        label: option,
+        checked: checkboxes[option],
+        onChange: () => handleCheckboxChange(option),
+        darkMode
+      }
+    })),
+    { type: SubmitButton, props: { text: 'Submit', darkMode } },
+  ];
+
+  const allComponents = [...components, ...components, ...components];
+
+  return (
+    <div className="scrolling-container">
+      <div className="scrolling-content">
+        {allComponents.map((component, index) => (
+          <div key={index} className="component-wrapper">
+            {React.createElement(component.type, component.props)}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -97,28 +90,22 @@ const FloatingBoxes = ({ darkMode, multiSelection, handleMultiChange }) => {
 
 function App() {
   const [isDarkMode] = useOutletContext();
-  const [multiSelection, setMultiSelection] = useState([]);
   const [email, setEmail] = useState('');
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [feedbackType, setFeedbackType] = useState(''); // 'success' or 'error'
+  const [feedbackType, setFeedbackType] = useState('');
 
   const location = useLocation();
   const isActive = (path) => location.pathname === path;
 
-  const handleMultiChange = (newValue) => {
-    setMultiSelection(newValue);
-  };
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    setFeedbackMessage(''); // Clear feedback when user starts typing
+    setFeedbackMessage('');
   };
 
   const validateEmail = (email) => {
     const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return re.test(String(email).toLowerCase());
   };
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -132,19 +119,18 @@ function App() {
       setFeedbackMessage('Cool! you will be updated.');
       setFeedbackType('success');
       console.log('Email submitted:', email);
-      // Here you would typically handle the email submission to your backend
-      // setEmail(''); // Uncomment this if you want to clear the email field after successful submission
     }
   };
 
   return (
-    <main className="container mx-auto pt-[80px] px-8 relative ">
-      <FloatingBoxes 
-        darkMode={isDarkMode ? 1 : 0}
-        multiSelection={multiSelection}
-        handleMultiChange={handleMultiChange} 
-      />
+    <main className="container mx-auto pt-[80px] px-8 relative">
+      {/* <div className="component-showcase">
+        <ScrollingComponents darkMode={isDarkMode ? 1 : 0} />
+      </div> */}
       
+      <div className=' flex mb-16 '>
+
+      <div className=' py-24 pl-8 flex flex-col justify-center'>
       <h1 className="text-5xl font-regular text-zinc-400 mb-4">
         Streamline Your UI
         <br />
@@ -157,14 +143,18 @@ function App() {
         This component library streamlines your development workflow, enhancing productivity and organization in every project.
       </p>
 
-      <div className="flex flex-row items-center gap-6 mb-16">
+      <div className="flex flex-row items-center gap-6 ">
         <p>Install via npm</p>
         <Link to="/docs">
           <SubmitButton text="Submit" label={'Try now!'} />
         </Link>
       </div>
+      </div>
 
-      <div className={`rounded-lg p-8 backdrop-blur-md bg-opacity-20 ${
+      <div className=''></div>
+      </div>
+
+      <div className={`rounded-lg mb-8 p-8 backdrop-blur-md bg-opacity-20 ${
         isDarkMode 
           ? 'bg-zinc-800 border border-zinc-700' 
           : 'bg-white border border-gray-200'
@@ -205,11 +195,11 @@ function App() {
           </p>
         </div>
         <div className="flex-1 flex justify-center items-center">
-          <img src={mistImage} alt="Mist UI" className={` ${
-        isDarkMode 
-          ? 'opacity-10' 
-          : 'opacity-30'
-      } max-w-full max-h-28 object-contain opacity-3` }/>
+          <img src={mistImage} alt="Mist UI" className={`${
+            isDarkMode 
+              ? 'opacity-10' 
+              : 'opacity-30'
+          } max-w-full max-h-28 object-contain`} />
         </div>
       </div>
     </main>

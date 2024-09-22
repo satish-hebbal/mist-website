@@ -6,7 +6,7 @@ import { useOutletContext } from 'react-router-dom';
 function DocsPage() {
     const [isDarkMode] = useOutletContext();
   return (
-    <main className="container mx-auto mt-16 px-8 ">
+    <main className="container mx-auto my-24 px-8 ">
       <section className={`rounded-lg p-8 backdrop-blur-md bg-opacity-20 ${
         isDarkMode 
           ? 'bg-zinc-800 border border-zinc-700' 

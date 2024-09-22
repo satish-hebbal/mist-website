@@ -5,3 +5,91 @@
 @tailwind components;
 @tailwind utilities;
 
+.component-showcase {
+    position: absolute;
+    top: 0px;
+    right: 80px;
+    width: 400px;
+    height: 460px;
+    overflow: hidden;
+    background: transparent;
+  }
+  
+  .scrolling-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    overflow: hidden;
+  }
+  
+  .scrolling-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    animation: scroll 50s linear infinite;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+  
+  .component-wrapper {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .main-content {
+    overflow-y: auto;
+    max-height: calc(100vh - [header-height]);
+    padding-right: 16px; /* Add some padding to prevent content from touching the scrollbar */
+  }
+
+  .component-sidebar {
+    overflow-y: auto;
+    max-height: calc(100vh - [header-height]);
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .component-sidebar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  } 
+
+  .usage-section {
+    margin-bottom: 24px;
+  }
+  
+  .tab-buttons {
+    display: flex;
+    margin-bottom: 16px;
+  }
+  
+  .tab-button {
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+  }
+  
+  .tab-button.active {
+    color: #fff;
+    border-bottom: 2px solid #8b5cf6;
+  }
+  
+  .tab-content {
+    padding: 16px;
+    background: #1e1e1e;
+    border-radius: 4px;
+  }
+  
+  .code-tab {
+    margin-bottom: 24px;
+  }

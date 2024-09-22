@@ -30,10 +30,14 @@ const Layout = () => {
   
   return (
     <div className={`min-h-screen flex flex-col ${isDarkMode ? 'bg-zinc-950 text-zinc-500' : 'bg-gray-100 text-zinc-900'}`} style={bgStyle}>
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute w-[800px] h-[200px] -z-10 top-1/4 right-[-100px] rotate-45 bg-violet-500 opacity-5 ${isDarkMode ? 'opacity-5' : 'opacity-20'} blur-3xl rounded-full`}></div>
+        <div className={`absolute w-[800px] h-[200px] -z-10 top-[250px] left-[-500px] -rotate-12 bg-violet-500 opacity-10 ${isDarkMode ? 'opacity-5' : 'opacity-30'} blur-3xl rounded-full`}></div>
+      </div>
       <Navigation isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      <main className="container mx-auto flex-grow mb-8 overflow-x-hidden">
+      <div className="flex-grow">
         <Outlet context={[isDarkMode, toggleDarkMode]} />
-      </main>
+      </div>
       <Footer isDarkMode={isDarkMode} />
     </div>
   );
