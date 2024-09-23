@@ -1,28 +1,34 @@
 import { useState, React } from 'react';
-import { Divider, Code, Chip, TextBox } from 'mist-ui-comp';
+import { Divider, Code, Chip, FileUpload } from 'mist-ui-comp';
 import CodeBlock from '../CodeBlock';
 
-function TextBoxDoc({ isDarkMode }) {
+function FileUploadDoc({ isDarkMode }) {
   const [activeSection, setActiveSection] = useState(1);
-  const typeText = `type="text"`;
-  const typeEmail = `type="email"`;
-  const typePass = `type="password"`;
-  const typeNum = `type="number"`;
-  const place = `placeholder="enter text"`;
-  const id = `id={id}`;
-  const name = `name={name}`;
-  const val = `value=''`;
-  const darkMode = `darkMode={1}`;
+  const maxSizeProp = `maxSize={5 * 1024 * 1024}`;
+  const acceptedFileTypesProp = `acceptedFileTypes="*"`;
+  const onFileSelectProp = `onFileSelect={handleFileSelect}`;
+  const onUploadProp = `onUpload={handleUpload}`;
+  const buttonTextProp = `buttonText="Upload File"`;
+  const dragDropTextProp = `dragDropText="Click to upload or drag and drop"`;
+  const darkModeProp = `darkMode={isDarkMode}`;
 
   const textColor = isDarkMode ? 'text-zinc-400' : 'text-zinc-700';
   const headingColor = isDarkMode ? 'text-zinc-300' : 'text-zinc-800';
   const codeBlockBg = isDarkMode ? 'bg-zinc-800' : 'bg-gray-100';
 
+  const handleFileSelect = (file) => {
+    console.log('File selected:', file.name);
+  };
+
+  const handleUpload = (file) => {
+    console.log('Uploading file:', file.name);
+  };
+
   return (
-    <div className={`flex gap-4 ring-1 ml-8 h-full p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
-      <div className='flex flex-col gap-4 flex-grow'>
-        <h2 className='text-3xl font-bold text-zinc-400'>TextBox</h2>
-        <p className={textColor}>A Text Box allows users to input text or other data. It can be used to capture information such as names, emails, or any other short to medium-length text data. Text boxes may include a placeholder, label, and various interactive states like focus, blur, and error handling.</p>
+    <div className={`flex gap-4 ring-1 ml-8 h-screen p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
+      <div className='flex flex-col gap-4 flex-grow overflow-y-auto pr-4 scrollbar-hide'>
+        <h2 className='text-3xl font-bold text-zinc-400'>FileUpload</h2>
+        <p className={textColor}>The FileUpload component allows users to select and upload files. It supports drag and drop functionality and provides visual feedback for the upload process. You can customize the maximum file size, accepted file types, and various text elements.</p>
         <Divider className="opacity-20" />
         <div className='flex flex-col gap-2'>
           <div className='flex items-center gap-4'>
@@ -54,34 +60,51 @@ function TextBoxDoc({ isDarkMode }) {
             </button>
           </div>
 
-          <div className="w-full flex justify-center items-center h-64 overflow-hidden">
+          <div className="w-full flex justify-center items-center h-96 overflow-hidden">
             {activeSection === 1 ? (
               <div className={`backdrop-blur-md bg-opacity-60 border rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
                 <div className={`flex justify-between items-center border-b ${isDarkMode ? 'border-zinc-700 border-opacity-35' : 'border-violet-200'}`}>
                   <div className='flex items-center'>
-                    <p className='p-4'>Text box</p>
+                    <p className='p-4'>File upload</p>
                   </div>
                   <div className='h-4 w-4 absolute right-14 opacity-25 bg-red-500 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-9 opacity-25 bg-amber-400 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-4 opacity-25 bg-green-500 rounded-full'></div>
                 </div>
                 <div className='p-10'>
-                  <TextBox darkMode={isDarkMode} />
+                  <FileUpload
+                    maxSize={5 * 1024 * 1024}
+                    acceptedFileTypes="*"
+                    onFileSelect={handleFileSelect}
+                    onUpload={handleUpload}
+                    darkMode={isDarkMode}
+                  />
                 </div>
               </div>
             ) : (
-              <div className={`w-full h-full rounded-md overflow-auto ${codeBlockBg}`}>
+              <div className={`w-full h-96 rounded-md overflow-auto ${codeBlockBg}`}>
                 <CodeBlock 
-                  code={`import { TextBox } from 'mist-ui-comp';
+                  code={`import { FileUpload } from 'mist-ui-comp';
 
 function MyForm() {
+  const handleFileSelect = (file) => {
+    console.log('File selected:', file.name);
+  };
+
+  const handleUpload = (file) => {
+    console.log('Uploading file:', file.name);
+  };
+
   return (
     <form>
-      <TextBox
-        darkMode={dark}
-        type={type}
-        id={type}
-        placeholder={'Text'}
+      <FileUpload
+        maxSize={5 * 1024 * 1024}
+        acceptedFileTypes="*"
+        onFileSelect={handleFileSelect}
+        onUpload={handleUpload}
+        buttonText="Upload File"
+        dragDropText="Click to upload or drag and drop"
+        darkMode={isDarkMode}
       />
     </form>
   );
@@ -93,31 +116,24 @@ function MyForm() {
           </div>
         </div>
       </div>
-      <div className='min-w-64 flex flex-col'>
+      <div className='min-w-64 flex flex-col overflow-y-auto'>
         <h2 className={`text-lg ${isDarkMode ? 'text-violet-300' : 'text-violet-600'} font-medium`}>Props for this component</h2>
         <div className='text-sm my-6 pl-2 ' >
           <dl className='flex flex-col gap-1'>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Type</dt>
-            <dd className='font-mono'>· {typeText} <Chip
-              label="New" 
-              size='xsm'
-              variant='flat'
-              color='primary'
-            >Default</Chip> </dd>
-            <dd className='font-mono'>· {typeEmail}</dd>
-            <dd className='font-mono'>· {typePass}</dd>
-            <dd className='font-mono'>· {typeNum}</dd>
-
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Placeholder</dt>
-            <dd className='font-mono'>· {place}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Id</dt>
-            <dd className='font-mono'>· {id}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Name</dt>
-            <dd className='font-mono'>· {name}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Value</dt>
-            <dd className='font-mono'>· {val}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Max Size</dt>
+            <dd className='font-mono'>· {maxSizeProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Accepted File Types</dt>
+            <dd className='font-mono'>· {acceptedFileTypesProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>On File Select</dt>
+            <dd className='font-mono'>· {onFileSelectProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>On Upload</dt>
+            <dd className='font-mono'>· {onUploadProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Button Text</dt>
+            <dd className='font-mono'>· {buttonTextProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Drag Drop Text</dt>
+            <dd className='font-mono'>· {dragDropTextProp}</dd>
             <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Dark Mode</dt>
-            <dd className='font-mono'>· {darkMode}</dd>
+            <dd className='font-mono'>· {darkModeProp}</dd>
           </dl>
         </div>
       </div>
@@ -125,4 +141,4 @@ function MyForm() {
   );
 }
 
-export default TextBoxDoc;
+export default FileUploadDoc;

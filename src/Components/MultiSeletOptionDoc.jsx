@@ -1,28 +1,32 @@
 import { useState, React } from 'react';
-import { Divider, Code, Chip, TextBox } from 'mist-ui-comp';
+import { Divider, Code, Chip, MultiSelectOption } from 'mist-ui-comp';
 import CodeBlock from '../CodeBlock';
 
-function TextBoxDoc({ isDarkMode }) {
+function MultiSelectOptionDoc({ isDarkMode }) {
   const [activeSection, setActiveSection] = useState(1);
-  const typeText = `type="text"`;
-  const typeEmail = `type="email"`;
-  const typePass = `type="password"`;
-  const typeNum = `type="number"`;
-  const place = `placeholder="enter text"`;
-  const id = `id={id}`;
-  const name = `name={name}`;
-  const val = `value=''`;
-  const darkMode = `darkMode={1}`;
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const optionsProp = `options={['Option 1', 'Option 2', 'Option 3']}`;
+  const valueProp = `value={selectedOptions}`;
+  const onChangeProp = `onChange={handleChange}`;
+  const placeholderProp = `placeholder="Select options"`;
+  const darkModeProp = `darkMode={isDarkMode}`;
 
   const textColor = isDarkMode ? 'text-zinc-400' : 'text-zinc-700';
   const headingColor = isDarkMode ? 'text-zinc-300' : 'text-zinc-800';
   const codeBlockBg = isDarkMode ? 'bg-zinc-800' : 'bg-gray-100';
 
+  const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+
+  const handleChange = (newValue) => {
+    setSelectedOptions(newValue);
+  };
+
   return (
-    <div className={`flex gap-4 ring-1 ml-8 h-full p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
-      <div className='flex flex-col gap-4 flex-grow'>
-        <h2 className='text-3xl font-bold text-zinc-400'>TextBox</h2>
-        <p className={textColor}>A Text Box allows users to input text or other data. It can be used to capture information such as names, emails, or any other short to medium-length text data. Text boxes may include a placeholder, label, and various interactive states like focus, blur, and error handling.</p>
+    <div className={`flex gap-4 ring-1 ml-8 h-screen p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
+      <div className='flex flex-col gap-4 flex-grow overflow-y-auto pr-4 scrollbar-hide'>
+        <h2 className='text-3xl font-bold text-zinc-400'>MultiSelectOption</h2>
+        <p className={textColor}>The MultiSelectOption component allows users to select multiple options from a dropdown list. It supports customization of options, placeholder text, and includes a dark mode.</p>
         <Divider className="opacity-20" />
         <div className='flex flex-col gap-2'>
           <div className='flex items-center gap-4'>
@@ -54,34 +58,48 @@ function TextBoxDoc({ isDarkMode }) {
             </button>
           </div>
 
-          <div className="w-full flex justify-center items-center h-64 overflow-hidden">
+          <div className="w-full flex justify-center items-center h-96 overflow-hidden">
             {activeSection === 1 ? (
-              <div className={`backdrop-blur-md bg-opacity-60 border rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
+              <div className={`backdrop-blur-md bg-opacity-60 border mb-16 rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
                 <div className={`flex justify-between items-center border-b ${isDarkMode ? 'border-zinc-700 border-opacity-35' : 'border-violet-200'}`}>
                   <div className='flex items-center'>
-                    <p className='p-4'>Text box</p>
+                    <p className='p-4'>Multi-select option</p>
                   </div>
                   <div className='h-4 w-4 absolute right-14 opacity-25 bg-red-500 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-9 opacity-25 bg-amber-400 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-4 opacity-25 bg-green-500 rounded-full'></div>
                 </div>
                 <div className='p-10'>
-                  <TextBox darkMode={isDarkMode} />
+                  <MultiSelectOption
+                    options={options}
+                    value={selectedOptions}
+                    onChange={handleChange}
+                    placeholder="Select options"
+                    darkMode={isDarkMode}
+                  />
                 </div>
               </div>
             ) : (
-              <div className={`w-full h-full rounded-md overflow-auto ${codeBlockBg}`}>
+              <div className={`w-full h-96 rounded-md overflow-auto ${codeBlockBg}`}>
                 <CodeBlock 
-                  code={`import { TextBox } from 'mist-ui-comp';
+                  code={`import { MultiSelectOption } from 'mist-ui-comp';
 
 function MyForm() {
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+
+  const handleChange = (newValue) => {
+    setSelectedOptions(newValue);
+  };
+
   return (
     <form>
-      <TextBox
-        darkMode={dark}
-        type={type}
-        id={type}
-        placeholder={'Text'}
+      <MultiSelectOption
+        options={options}
+        value={selectedOptions}
+        onChange={handleChange}
+        placeholder="Select options"
+        darkMode={isDarkMode}
       />
     </form>
   );
@@ -93,31 +111,20 @@ function MyForm() {
           </div>
         </div>
       </div>
-      <div className='min-w-64 flex flex-col'>
+      <div className='min-w-64 flex flex-col overflow-y-auto'>
         <h2 className={`text-lg ${isDarkMode ? 'text-violet-300' : 'text-violet-600'} font-medium`}>Props for this component</h2>
         <div className='text-sm my-6 pl-2 ' >
           <dl className='flex flex-col gap-1'>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Type</dt>
-            <dd className='font-mono'>· {typeText} <Chip
-              label="New" 
-              size='xsm'
-              variant='flat'
-              color='primary'
-            >Default</Chip> </dd>
-            <dd className='font-mono'>· {typeEmail}</dd>
-            <dd className='font-mono'>· {typePass}</dd>
-            <dd className='font-mono'>· {typeNum}</dd>
-
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Placeholder</dt>
-            <dd className='font-mono'>· {place}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Id</dt>
-            <dd className='font-mono'>· {id}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Name</dt>
-            <dd className='font-mono'>· {name}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Options</dt>
+            <dd className='font-mono'>· {optionsProp}</dd>
             <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Value</dt>
-            <dd className='font-mono'>· {val}</dd>
+            <dd className='font-mono'>· {valueProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>On Change</dt>
+            <dd className='font-mono'>· {onChangeProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Placeholder</dt>
+            <dd className='font-mono'>· {placeholderProp}</dd>
             <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Dark Mode</dt>
-            <dd className='font-mono'>· {darkMode}</dd>
+            <dd className='font-mono'>· {darkModeProp}</dd>
           </dl>
         </div>
       </div>
@@ -125,4 +132,4 @@ function MyForm() {
   );
 }
 
-export default TextBoxDoc;
+export default MultiSelectOptionDoc;

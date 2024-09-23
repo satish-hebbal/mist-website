@@ -1,28 +1,30 @@
 import { useState, React } from 'react';
-import { Divider, Code, Chip, TextBox } from 'mist-ui-comp';
+import { Divider, Code, Chip, ToggleSwitch } from 'mist-ui-comp';
 import CodeBlock from '../CodeBlock';
 
-function TextBoxDoc({ isDarkMode }) {
+function ToggleSwitchDoc({ isDarkMode }) {
   const [activeSection, setActiveSection] = useState(1);
-  const typeText = `type="text"`;
-  const typeEmail = `type="email"`;
-  const typePass = `type="password"`;
-  const typeNum = `type="number"`;
-  const place = `placeholder="enter text"`;
-  const id = `id={id}`;
-  const name = `name={name}`;
-  const val = `value=''`;
-  const darkMode = `darkMode={1}`;
+  const [isOn, setIsOn] = useState(false);
+
+  const isOnProp = `isOn={isOn}`;
+  const onChangeProp = `onChange={handleToggle}`;
+  const idProp = `id="myToggleSwitch"`;
+  const darkModeProp = `darkMode={isDarkMode}`;
 
   const textColor = isDarkMode ? 'text-zinc-400' : 'text-zinc-700';
   const headingColor = isDarkMode ? 'text-zinc-300' : 'text-zinc-800';
   const codeBlockBg = isDarkMode ? 'bg-zinc-800' : 'bg-gray-100';
 
+  const handleToggle = (newState) => {
+    setIsOn(newState);
+    console.log("Toggle state:", newState);
+  };
+
   return (
-    <div className={`flex gap-4 ring-1 ml-8 h-full p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
-      <div className='flex flex-col gap-4 flex-grow'>
-        <h2 className='text-3xl font-bold text-zinc-400'>TextBox</h2>
-        <p className={textColor}>A Text Box allows users to input text or other data. It can be used to capture information such as names, emails, or any other short to medium-length text data. Text boxes may include a placeholder, label, and various interactive states like focus, blur, and error handling.</p>
+    <div className={`flex gap-4 ring-1 ml-8 h-screen p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
+      <div className='flex flex-col gap-4 flex-grow overflow-y-auto pr-4 scrollbar-hide'>
+        <h2 className='text-3xl font-bold text-zinc-400'>ToggleSwitch</h2>
+        <p className={textColor}>The ToggleSwitch component provides a sleek, animated switch for toggling between two states. It supports both controlled and uncontrolled modes, custom styling, and dark mode.</p>
         <Divider className="opacity-20" />
         <div className='flex flex-col gap-2'>
           <div className='flex items-center gap-4'>
@@ -56,34 +58,48 @@ function TextBoxDoc({ isDarkMode }) {
 
           <div className="w-full flex justify-center items-center h-64 overflow-hidden">
             {activeSection === 1 ? (
-              <div className={`backdrop-blur-md bg-opacity-60 border rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
+              <div className={`backdrop-blur-md bg-opacity-60 w-96 border rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
                 <div className={`flex justify-between items-center border-b ${isDarkMode ? 'border-zinc-700 border-opacity-35' : 'border-violet-200'}`}>
                   <div className='flex items-center'>
-                    <p className='p-4'>Text box</p>
+                    <p className='p-4'>Toggle switch</p>
                   </div>
                   <div className='h-4 w-4 absolute right-14 opacity-25 bg-red-500 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-9 opacity-25 bg-amber-400 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-4 opacity-25 bg-green-500 rounded-full'></div>
                 </div>
-                <div className='p-10'>
-                  <TextBox darkMode={isDarkMode} />
+                <div className='p-10 flex flex-col items-center'>
+                  <ToggleSwitch
+                    isOn={isOn}
+                    onChange={handleToggle}
+                    id="demoToggle"
+                    darkMode={isDarkMode}
+                  />
+                  <p className={`mt-4 ${textColor}`}>Hyper Mode : {isOn ? 'On' : 'Off'}</p>
                 </div>
               </div>
             ) : (
-              <div className={`w-full h-full rounded-md overflow-auto ${codeBlockBg}`}>
+              <div className={`w-full h-64 rounded-md overflow-auto ${codeBlockBg}`}>
                 <CodeBlock 
-                  code={`import { TextBox } from 'mist-ui-comp';
+                  code={`import { ToggleSwitch } from 'mist-ui-comp';
 
-function MyForm() {
+function MyComponent() {
+  const [isOn, setIsOn] = useState(false);
+
+  const handleToggle = (newState) => {
+    setIsOn(newState);
+    console.log("Toggle state:", newState);
+  };
+
   return (
-    <form>
-      <TextBox
-        darkMode={dark}
-        type={type}
-        id={type}
-        placeholder={'Text'}
+    <div>
+      <ToggleSwitch
+        isOn={isOn}
+        onChange={handleToggle}
+        id="myToggleSwitch"
+        darkMode={isDarkMode}
       />
-    </form>
+      <p>Toggle state: {isOn ? 'On' : 'Off'}</p>
+    </div>
   );
 }`}
                   language="jsx"
@@ -93,31 +109,18 @@ function MyForm() {
           </div>
         </div>
       </div>
-      <div className='min-w-64 flex flex-col'>
+      <div className='min-w-64 flex flex-col overflow-y-auto'>
         <h2 className={`text-lg ${isDarkMode ? 'text-violet-300' : 'text-violet-600'} font-medium`}>Props for this component</h2>
         <div className='text-sm my-6 pl-2 ' >
           <dl className='flex flex-col gap-1'>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Type</dt>
-            <dd className='font-mono'>· {typeText} <Chip
-              label="New" 
-              size='xsm'
-              variant='flat'
-              color='primary'
-            >Default</Chip> </dd>
-            <dd className='font-mono'>· {typeEmail}</dd>
-            <dd className='font-mono'>· {typePass}</dd>
-            <dd className='font-mono'>· {typeNum}</dd>
-
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Placeholder</dt>
-            <dd className='font-mono'>· {place}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Id</dt>
-            <dd className='font-mono'>· {id}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Name</dt>
-            <dd className='font-mono'>· {name}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Value</dt>
-            <dd className='font-mono'>· {val}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>isOn</dt>
+            <dd className='font-mono'>· {isOnProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>onChange</dt>
+            <dd className='font-mono'>· {onChangeProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>id</dt>
+            <dd className='font-mono'>· {idProp}</dd>
             <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Dark Mode</dt>
-            <dd className='font-mono'>· {darkMode}</dd>
+            <dd className='font-mono'>· {darkModeProp}</dd>
           </dl>
         </div>
       </div>
@@ -125,4 +128,4 @@ function MyForm() {
   );
 }
 
-export default TextBoxDoc;
+export default ToggleSwitchDoc;

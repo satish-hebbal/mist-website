@@ -6,16 +6,16 @@ const ComponentSidebar = ({ isDarkMode }) => {
   const location = useLocation();
   
   const components = [
-    { name: 'CheckBox', path: '/Components/CheckboxDocumentation' },
-    { name: 'FileUpload', path: '/components/fileupload' },
-    { name: 'MultiSelectOption', path: '/components/multiselectoption' },
-    { name: 'RadioButton', path: '/components/radiobutton' },
-    { name: 'SelectDate', path: '/components/selectdate' },
-    { name: 'SelectOption', path: '/components/selectoption' },
-    { name: 'SubmitButton', path: '/components/submitbutton' },
-    { name: 'TextArea', path: '/components/textarea' },
+    { name: 'CheckBox', path: '/Components/CheckBoxDoc' },
+    { name: 'FileUpload', path: '/Components/FileUploadDoc' },
+    { name: 'MultiSelectOption', path: '/Components/MultiSelectOptionDoc' },
+    { name: 'RadioButton', path: '/Components/RadioButtonDoc' },
+    { name: 'SelectDate', path: '/Components/SelectDateDoc' }, 
+    { name: 'SelectOption', path: '/Components/SelectOptionDoc' },
+    { name: 'SubmitButton', path: '/Components/SubmitButtonDoc' },
+    { name: 'TextArea', path: '/Components/TextAreaDoc' },
     { name: 'TextBox', path: '/Components/TextBoxDoc' },
-    { name: 'ToggleSwitch', path: '/components/toggleswitch' },
+    { name: 'ToggleSwitch', path: '/Components/ToggleSwitchDoc' },
     { name: 'Accordion', path: '/components/accordion', isNew: true },
     { name: 'Avatar', path: '/components/avatar', isNew: true },
     { name: 'Badge', path: '/components/badge', isNew: true },
@@ -40,7 +40,7 @@ const ComponentSidebar = ({ isDarkMode }) => {
               to={component.path}
               className={`block px-2 py text-sm rounded ${
                 location.pathname === component.path
-                  ? 'bg-violet-500 text-white'
+                  ? 'bg-violet-600 bg-opacity-50 text-violet-400'
                   : isDarkMode
                   ? 'hover:bg-zinc-800'
                   : 'hover:bg-zinc-100'
