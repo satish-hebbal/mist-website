@@ -25,7 +25,7 @@ const Navigation = ({ isDarkMode, toggleDarkMode }) => {
             label="version" 
             size='xsm'
             variant='flat'
-            color='secondary'>ver 1 . 1 . 1</Chip>
+            color='secondary'>ver 1 . 1 . 2</Chip>
         </div>
         <div className="flex space-x-4">
           <Link to="/" className={`hover:text-violet-500 ${isActive('/') ? 'text-violet-500 font-bold' : ''}`}>Home</Link>
