@@ -1,18 +1,18 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
-import {Chip} from 'mist-ui-comp';
-
+import { Chip } from 'mist-ui-comp';
 
 const Navigation = ({ isDarkMode, toggleDarkMode }) => {
   const location = useLocation();
+
   const isActive = (path) => {
     if (path === '/components') {
+      // Check if the current path starts with '/components'
       return location.pathname.startsWith('/components');
     }
     return location.pathname === path;
   };
-  
 
   return ( 
     <nav className={`fixed backdrop-blur-md bg-opacity-60 top-0 left-0 right-0 z-50 mx-8 rounded-br-md rounded-bl-md p-4 ${isDarkMode ? 'bg-zinc-900' : 'bg-white'}`}>
@@ -21,11 +21,11 @@ const Navigation = ({ isDarkMode, toggleDarkMode }) => {
           <span className="text-2xl text-zinc-500 ml-4 font-semibold">
             <span className="font-caveat ml-4 text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-zinc-400">Mist</span> UI
           </span>
-              <Chip
-                label="version" 
-                size='xsm'
-                variant='flat'
-                color='secondary'>ver 1 . 1 . 1</Chip>
+          <Chip
+            label="version" 
+            size='xsm'
+            variant='flat'
+            color='secondary'>ver 1 . 1 . 1</Chip>
         </div>
         <div className="flex space-x-4">
           <Link to="/" className={`hover:text-violet-500 ${isActive('/') ? 'text-violet-500 font-bold' : ''}`}>Home</Link>

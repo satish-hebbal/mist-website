@@ -10,7 +10,7 @@ function CodeDoc({ isDarkMode }) {
   const codeBlockBg = isDarkMode ? 'bg-zinc-800' : 'bg-gray-100';
 
   const colors = ['default', 'blue', 'green', 'purple', 'yellow', 'pink'];
-  const sampleCode = 'npm install @mist-ui/react';
+  const sampleCode = 'npm install @mist-ui-comp@latest';
 
   return (
     <div className={`flex gap-4 ring-1 ml-8 h-screen p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
