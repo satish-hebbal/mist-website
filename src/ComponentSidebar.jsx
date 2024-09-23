@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import {Chip} from 'mist-ui-comp';
+import { Chip } from 'mist-ui-comp';
 
 const ComponentSidebar = ({ isDarkMode }) => {
   const location = useLocation();
@@ -16,16 +16,16 @@ const ComponentSidebar = ({ isDarkMode }) => {
     { name: 'TextArea', path: '/Components/TextAreaDoc' },
     { name: 'TextBox', path: '/Components/TextBoxDoc' },
     { name: 'ToggleSwitch', path: '/Components/ToggleSwitchDoc' },
-    { name: 'Accordion', path: '/components/accordion', isNew: true },
-    { name: 'Avatar', path: '/components/avatar', isNew: true },
-    { name: 'Badge', path: '/components/badge', isNew: true },
-    { name: 'Breadcrumbs', path: '/components/breadcrumbs', isNew: true },
-    { name: 'Chip', path: '/components/chip', isNew: true },
-    { name: 'CircularProgress', path: '/components/circularprogress', isNew: true },
-    { name: 'Code', path: '/components/code', isNew: true },
-    { name: 'Divider', path: '/components/divider', isNew: true },
-    { name: 'Progress', path: '/components/progress', isNew: true },
-    { name: 'Slider', path: '/components/slider', isNew: true }
+    { name: 'Accordion', path: '/Components/AccordionDoc', isNew: true },
+    { name: 'Avatar', path: '/Components/AvatarDoc', isNew: true },
+    { name: 'Badge', path: '/Components/BadgeDoc', isNew: true },
+    { name: 'Breadcrumbs', path: '/Components/BreadCrumbsDoc', isNew: true },
+    { name: 'Chip', path: '/Components/ChipDoc', isNew: true },
+    { name: 'CircularProgress', path: '/Components/CircularProgressDoc', isNew: true },
+    { name: 'Code', path: '/Components/CodeDoc', isNew: true },
+    { name: 'Divider', path: '/Components/DividerDoc', isNew: true },
+    { name: 'Progress', path: '/Components/ProgressDoc', isNew: true },
+    { name: 'Slider', path: '/Components/SliderDoc', isNew: true }
   ];
 
   return (
@@ -35,11 +35,11 @@ const ComponentSidebar = ({ isDarkMode }) => {
       <h2 className="text-xl text-violet-500 mb-4">Componentz</h2>
       <ul>
         {components.map((component) => (
-          <li key={component.path} className="mb-2 flex gao-2">
+          <li key={component.path} className="mb-2 flex gap-2">
             <Link
               to={component.path}
               className={`block px-2 py text-sm rounded ${
-                location.pathname === component.path
+                location.pathname === component.path || (location.pathname === '/components' && component.name === 'CheckBox')
                   ? 'bg-violet-600 bg-opacity-50 text-violet-400'
                   : isDarkMode
                   ? 'hover:bg-zinc-800'
@@ -49,7 +49,7 @@ const ComponentSidebar = ({ isDarkMode }) => {
               {component.name}
             </Link>
             {component.isNew && (
-              <Chip
+              <Chip className="ml-1"
                 label="New" 
                 size='xsm'
                 variant='flat'

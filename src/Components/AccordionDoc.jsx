@@ -1,34 +1,28 @@
 import { useState, React } from 'react';
-import { Divider, Code, Chip, FileUpload } from 'mist-ui-comp';
+import { Divider, Code, Chip, Accordion } from 'mist-ui-comp';
 import CodeBlock from '../CodeBlock';
 
-function FileUploadDoc({ isDarkMode }) {
+function AccordionDoc({ isDarkMode }) {
   const [activeSection, setActiveSection] = useState(1);
-  const maxSizeProp = `maxSize={5 * 1024 * 1024}`;
-  const acceptedFileTypesProp = `acceptedFileTypes="*"`;
-  const onFileSelectProp = `onFileSelect={handleFileSelect}`;
-  const onUploadProp = `onUpload={handleUpload}`;
-  const buttonTextProp = `buttonText="Upload File"`;
-  const dragDropTextProp = `dragDropText="Click to upload or drag and drop"`;
+
+  const itemsProp = `items={accordionItems}`;
   const darkModeProp = `darkMode={isDarkMode}`;
 
   const textColor = isDarkMode ? 'text-zinc-400' : 'text-zinc-700';
   const headingColor = isDarkMode ? 'text-zinc-300' : 'text-zinc-800';
   const codeBlockBg = isDarkMode ? 'bg-zinc-800' : 'bg-gray-100';
 
-  const handleFileSelect = (file) => {
-    console.log('File selected:', file.name);
-  };
-
-  const handleUpload = (file) => {
-    console.log('Uploading file:', file.name);
-  };
+  const accordionItems = [
+    { title: 'Section 1', content: 'Content for section 1' },
+    { title: 'Section 2', content: 'Content for section 2' },
+    { title: 'Section 3', content: 'Content for section 3' },
+  ];
 
   return (
     <div className={`flex gap-4 ring-1 ml-8 h-screen p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
       <div className='flex flex-col gap-4 flex-grow overflow-y-auto pr-4 scrollbar-hide'>
-        <h2 className='text-3xl font-bold text-zinc-400'>FileUpload</h2>
-        <p className={textColor}>The FileUpload component allows users to select and upload files. It supports drag and drop functionality and provides visual feedback for the upload process. You can customize the maximum file size, accepted file types, and various text elements.</p>
+        <h2 className='text-3xl font-bold text-zinc-400'>Accordion</h2>
+        <p className={textColor}>The Accordion component provides a collapsible content area for organizing and presenting information in a compact form. It supports multiple sections, smooth animations, and dark mode.</p>
         <Divider className="opacity-20" />
         <div className='flex flex-col gap-2'>
           <div className='flex items-center gap-4'>
@@ -62,21 +56,18 @@ function FileUploadDoc({ isDarkMode }) {
 
           <div className="w-full flex justify-center items-center h-[500px] overflow-hidden">
             {activeSection === 1 ? (
-              <div className={`backdrop-blur-md bg-opacity-60 border  rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
+              <div className={`backdrop-blur-md bg-opacity-60 w-[600px] border rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
                 <div className={`flex justify-between items-center border-b ${isDarkMode ? 'border-zinc-700 border-opacity-35' : 'border-violet-200'}`}>
                   <div className='flex items-center'>
-                    <p className='p-4'>File upload</p>
+                    <p className='p-4'>Accordion</p>
                   </div>
                   <div className='h-4 w-4 absolute right-14 opacity-25 bg-red-500 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-9 opacity-25 bg-amber-400 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-4 opacity-25 bg-green-500 rounded-full'></div>
                 </div>
                 <div className='p-10'>
-                  <FileUpload
-                    maxSize={5 * 1024 * 1024}
-                    acceptedFileTypes="*"
-                    onFileSelect={handleFileSelect}
-                    onUpload={handleUpload}
+                  <Accordion
+                    items={accordionItems}
                     darkMode={isDarkMode}
                   />
                 </div>
@@ -84,29 +75,20 @@ function FileUploadDoc({ isDarkMode }) {
             ) : (
               <div className={`w-full h-96 rounded-md overflow-auto ${codeBlockBg}`}>
                 <CodeBlock 
-                  code={`import { FileUpload } from 'mist-ui-comp';
+                  code={`import { Accordion } from 'mist-ui-comp';
 
-function MyForm() {
-  const handleFileSelect = (file) => {
-    console.log('File selected:', file.name);
-  };
-
-  const handleUpload = (file) => {
-    console.log('Uploading file:', file.name);
-  };
+function MyComponent() {
+  const accordionItems = [
+    { title: 'Section 1', content: 'Content for section 1' },
+    { title: 'Section 2', content: 'Content for section 2' },
+    { title: 'Section 3', content: 'Content for section 3' },
+  ];
 
   return (
-    <form>
-      <FileUpload
-        maxSize={5 * 1024 * 1024}
-        acceptedFileTypes="*"
-        onFileSelect={handleFileSelect}
-        onUpload={handleUpload}
-        buttonText="Upload File"
-        dragDropText="Click to upload or drag and drop"
-        darkMode={isDarkMode}
-      />
-    </form>
+    <Accordion
+      items={accordionItems}
+      darkMode={isDarkMode}
+    />
   );
 }`}
                   language="jsx"
@@ -120,18 +102,8 @@ function MyForm() {
         <h2 className={`text-lg ${isDarkMode ? 'text-violet-300' : 'text-violet-600'} font-medium`}>Props for this component</h2>
         <div className='text-sm my-6 pl-2 ' >
           <dl className='flex flex-col gap-1'>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Max Size</dt>
-            <dd className='font-mono'>· {maxSizeProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Accepted File Types</dt>
-            <dd className='font-mono'>· {acceptedFileTypesProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>On File Select</dt>
-            <dd className='font-mono'>· {onFileSelectProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>On Upload</dt>
-            <dd className='font-mono'>· {onUploadProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Button Text</dt>
-            <dd className='font-mono'>· {buttonTextProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Drag Drop Text</dt>
-            <dd className='font-mono'>· {dragDropTextProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>items</dt>
+            <dd className='font-mono'>· {itemsProp}</dd>
             <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Dark Mode</dt>
             <dd className='font-mono'>· {darkModeProp}</dd>
           </dl>
@@ -141,4 +113,4 @@ function MyForm() {
   );
 }
 
-export default FileUploadDoc;
+export default AccordionDoc;

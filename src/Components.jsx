@@ -1,18 +1,28 @@
-import React from 'react';
-import { useOutletContext, useParams  } from 'react-router-dom';
-import mistImage from './assets/peter.png';
-import ComponentSidebar from './ComponentSidebar'; // Make sure to import the new component
-import TextBoxDoc from './Components/TextBoxDoc';
-import TextAreaDoc from './Components/TextAreaDoc';
-import CheckBoxDoc from './Components/CheckBoxDoc';
-import RadioButtonDoc from './Components/RadioButtonDoc';
-import FileUploadDoc from './Components/FileUploadDoc';
-import SelectDateDoc from './Components/SelectDateDoc';
-import MultiSelectOptionDoc from './Components/MultiSeletOptionDoc';
-import SelectOptionDoc from './Components/SelectOption';
-import SubmitButtonDoc from './Components/SubmitButtonDoc';
-import ToggleSwitchDoc from './Components/ToggleSwitchDoc';
+import React, { lazy, Suspense } from 'react';
+import { useOutletContext, useParams } from 'react-router-dom';
+import ComponentSidebar from './ComponentSidebar';
 
+// Lazy load all components
+const TextBoxDoc = lazy(() => import('./Components/TextBoxDoc'));
+const TextAreaDoc = lazy(() => import('./Components/TextAreaDoc'));
+const CheckBoxDoc = lazy(() => import('./Components/CheckBoxDoc'));
+const RadioButtonDoc = lazy(() => import('./Components/RadioButtonDoc'));
+const FileUploadDoc = lazy(() => import('./Components/FileUploadDoc'));
+const SelectDateDoc = lazy(() => import('./Components/SelectDateDoc'));
+const MultiSelectOptionDoc = lazy(() => import('./Components/MultiSeletOptionDoc'));
+const SelectOptionDoc = lazy(() => import('./Components/SelectOption'));
+const SubmitButtonDoc = lazy(() => import('./Components/SubmitButtonDoc'));
+const ToggleSwitchDoc = lazy(() => import('./Components/ToggleSwitchDoc'));
+const AccordionDoc = lazy(() => import('./Components/AccordionDoc'));
+const BreadCrumbsDoc = lazy(() => import('./Components/BreadCrumbsDoc'));
+const ChipDoc = lazy(() => import('./Components/ChipDoc'));
+const CircularProgressDoc = lazy(() => import('./Components/CircularProgressDoc'));
+const CodeDoc = lazy(() => import('./Components/CodeDoc'));
+const ProgressDoc = lazy(() => import('./Components/ProgressDoc'));
+const AvatarDoc = lazy(() => import('./Components/AvatarDoc'));
+const BadgeDoc = lazy(() => import('./Components/BadgeDoc'));
+const DividerDoc = lazy(() => import('./Components/DividerDoc'));
+const SliderDoc = lazy(() => import('./Components/SliderDoc'));
 
 function ComponentsList() {
     const [isDarkMode] = useOutletContext();
@@ -40,19 +50,40 @@ function ComponentsList() {
                 return <SubmitButtonDoc isDarkMode={isDarkMode} />;
             case 'ToggleSwitchDoc':
                 return <ToggleSwitchDoc isDarkMode={isDarkMode} />;
-            // Add cases for other components here
+            case 'AccordionDoc':
+                return <AccordionDoc isDarkMode={isDarkMode} />;
+            case 'BreadCrumbsDoc':
+                return <BreadCrumbsDoc isDarkMode={isDarkMode} />;
+            case 'ChipDoc':
+                return <ChipDoc isDarkMode={isDarkMode} />;
+            case 'CircularProgressDoc':
+                return <CircularProgressDoc isDarkMode={isDarkMode} />;
+            case 'CodeDoc':
+                return <CodeDoc isDarkMode={isDarkMode} />;
+            case 'ProgressDoc':
+                return <ProgressDoc isDarkMode={isDarkMode} />;
+            case 'AvatarDoc':
+                return <AvatarDoc isDarkMode={isDarkMode} />;
+            case 'BadgeDoc':
+                return <BadgeDoc isDarkMode={isDarkMode} />;
+            case 'DividerDoc':
+                return <DividerDoc isDarkMode={isDarkMode} />;
+            case 'SliderDoc':
+                return <SliderDoc isDarkMode={isDarkMode} />;
             default:
-                return <div>Select a component from the sidebar</div>;
+                return <CheckBoxDoc isDarkMode={isDarkMode} />;
         }
     };
 
     return (
-        <div className={`flex  min-h-screen pt-16 `}>
+        <div className={`flex min-h-screen pt-16`}>
             <ComponentSidebar isDarkMode={isDarkMode} />
             
             {/* Main content area */}
             <main className="flex-1 ml-64 p-8">
-            {renderComponent()}
+                <Suspense fallback={<div>Loading...</div>}>
+                    {renderComponent()}
+                </Suspense>
             </main>
         </div>
     );

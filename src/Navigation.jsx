@@ -6,7 +6,13 @@ import {Chip} from 'mist-ui-comp';
 
 const Navigation = ({ isDarkMode, toggleDarkMode }) => {
   const location = useLocation();
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    if (path === '/components') {
+      return location.pathname.startsWith('/components');
+    }
+    return location.pathname === path;
+  };
+  
 
   return ( 
     <nav className={`fixed backdrop-blur-md bg-opacity-60 top-0 left-0 right-0 z-50 mx-8 rounded-br-md rounded-bl-md p-4 ${isDarkMode ? 'bg-zinc-900' : 'bg-white'}`}>

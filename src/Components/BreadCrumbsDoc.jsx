@@ -1,34 +1,24 @@
 import { useState, React } from 'react';
-import { Divider, Code, Chip, FileUpload } from 'mist-ui-comp';
+import { Divider, Code, Chip, Breadcrumbs, BreadcrumbItem } from 'mist-ui-comp';
 import CodeBlock from '../CodeBlock';
 
-function FileUploadDoc({ isDarkMode }) {
+function BreadCrumbsDoc({ isDarkMode }) {
   const [activeSection, setActiveSection] = useState(1);
-  const maxSizeProp = `maxSize={5 * 1024 * 1024}`;
-  const acceptedFileTypesProp = `acceptedFileTypes="*"`;
-  const onFileSelectProp = `onFileSelect={handleFileSelect}`;
-  const onUploadProp = `onUpload={handleUpload}`;
-  const buttonTextProp = `buttonText="Upload File"`;
-  const dragDropTextProp = `dragDropText="Click to upload or drag and drop"`;
+
+  const variantProp = `variant="solid"`;
   const darkModeProp = `darkMode={isDarkMode}`;
 
   const textColor = isDarkMode ? 'text-zinc-400' : 'text-zinc-700';
   const headingColor = isDarkMode ? 'text-zinc-300' : 'text-zinc-800';
   const codeBlockBg = isDarkMode ? 'bg-zinc-800' : 'bg-gray-100';
 
-  const handleFileSelect = (file) => {
-    console.log('File selected:', file.name);
-  };
-
-  const handleUpload = (file) => {
-    console.log('Uploading file:', file.name);
-  };
+  const breadcrumbItems = ['Home', 'Category', 'Subcategory', 'Current Page'];
 
   return (
     <div className={`flex gap-4 ring-1 ml-8 h-screen p-4 rounded-md ${isDarkMode ? 'ring-zinc-700 ring-opacity-35' : 'ring-violet-200'}`}>
       <div className='flex flex-col gap-4 flex-grow overflow-y-auto pr-4 scrollbar-hide'>
-        <h2 className='text-3xl font-bold text-zinc-400'>FileUpload</h2>
-        <p className={textColor}>The FileUpload component allows users to select and upload files. It supports drag and drop functionality and provides visual feedback for the upload process. You can customize the maximum file size, accepted file types, and various text elements.</p>
+        <h2 className='text-3xl font-bold text-zinc-400'>Breadcrumbs</h2>
+        <p className={textColor}>The Breadcrumbs component provides a navigation aid that shows the user's location within a website's hierarchy. It supports multiple styles and dark mode, with interactive items that respond to user clicks.</p>
         <Divider className="opacity-20" />
         <div className='flex flex-col gap-2'>
           <div className='flex items-center gap-4'>
@@ -60,53 +50,73 @@ function FileUploadDoc({ isDarkMode }) {
             </button>
           </div>
 
-          <div className="w-full flex justify-center items-center h-[500px] overflow-hidden">
+          <div className="w-full flex justify-center items-center h-[400px] overflow-hidden">
             {activeSection === 1 ? (
-              <div className={`backdrop-blur-md bg-opacity-60 border  rounded-md ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
+              <div className={`backdrop-blur-md bg-opacity-60 border rounded-md w-full ${isDarkMode ? 'bg-zinc-900 border-zinc-700 border-opacity-35' : 'bg-white border-violet-200'}`}>
                 <div className={`flex justify-between items-center border-b ${isDarkMode ? 'border-zinc-700 border-opacity-35' : 'border-violet-200'}`}>
                   <div className='flex items-center'>
-                    <p className='p-4'>File upload</p>
+                    <p className='p-4'>Breadcrumbs</p>
                   </div>
                   <div className='h-4 w-4 absolute right-14 opacity-25 bg-red-500 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-9 opacity-25 bg-amber-400 rounded-full'></div>
                   <div className='h-4 w-4 absolute right-4 opacity-25 bg-green-500 rounded-full'></div>
                 </div>
-                <div className='p-10'>
-                  <FileUpload
-                    maxSize={5 * 1024 * 1024}
-                    acceptedFileTypes="*"
-                    onFileSelect={handleFileSelect}
-                    onUpload={handleUpload}
-                    darkMode={isDarkMode}
-                  />
+                <div className='p-10 space-y-4'>
+                  <div>
+                    <p className={`mb-2 ${textColor}`}>Solid variant:</p>
+                    <Breadcrumbs variant="solid" darkMode={isDarkMode}>
+                      {breadcrumbItems.map((item, index) => (
+                        <BreadcrumbItem key={index}>{item}</BreadcrumbItem>
+                      ))}
+                    </Breadcrumbs>
+                  </div>
+                  <div>
+                    <p className={`mb-2 ${textColor}`}>Bordered variant:</p>
+                    <Breadcrumbs variant="bordered" darkMode={isDarkMode}>
+                      {breadcrumbItems.map((item, index) => (
+                        <BreadcrumbItem key={index}>{item}</BreadcrumbItem>
+                      ))}
+                    </Breadcrumbs>
+                  </div>
+                  <div>
+                    <p className={`mb-2 ${textColor}`}>Light variant:</p>
+                    <Breadcrumbs variant="light" darkMode={isDarkMode}>
+                      {breadcrumbItems.map((item, index) => (
+                        <BreadcrumbItem key={index}>{item}</BreadcrumbItem>
+                      ))}
+                    </Breadcrumbs>
+                  </div>
                 </div>
               </div>
             ) : (
               <div className={`w-full h-96 rounded-md overflow-auto ${codeBlockBg}`}>
                 <CodeBlock 
-                  code={`import { FileUpload } from 'mist-ui-comp';
+                  code={`import { Breadcrumbs, BreadcrumbItem } from 'mist-ui-comp';
 
-function MyForm() {
-  const handleFileSelect = (file) => {
-    console.log('File selected:', file.name);
-  };
-
-  const handleUpload = (file) => {
-    console.log('Uploading file:', file.name);
-  };
-
+function MyComponent() {
   return (
-    <form>
-      <FileUpload
-        maxSize={5 * 1024 * 1024}
-        acceptedFileTypes="*"
-        onFileSelect={handleFileSelect}
-        onUpload={handleUpload}
-        buttonText="Upload File"
-        dragDropText="Click to upload or drag and drop"
-        darkMode={isDarkMode}
-      />
-    </form>
+    <>
+      <Breadcrumbs variant="solid" darkMode={isDarkMode}>
+        <BreadcrumbItem>Home</BreadcrumbItem>
+        <BreadcrumbItem>Category</BreadcrumbItem>
+        <BreadcrumbItem>Subcategory</BreadcrumbItem>
+        <BreadcrumbItem>Current Page</BreadcrumbItem>
+      </Breadcrumbs>
+
+      <Breadcrumbs variant="bordered" darkMode={isDarkMode}>
+        <BreadcrumbItem>Home</BreadcrumbItem>
+        <BreadcrumbItem>Category</BreadcrumbItem>
+        <BreadcrumbItem>Subcategory</BreadcrumbItem>
+        <BreadcrumbItem>Current Page</BreadcrumbItem>
+      </Breadcrumbs>
+
+      <Breadcrumbs variant="light" darkMode={isDarkMode}>
+        <BreadcrumbItem>Home</BreadcrumbItem>
+        <BreadcrumbItem>Category</BreadcrumbItem>
+        <BreadcrumbItem>Subcategory</BreadcrumbItem>
+        <BreadcrumbItem>Current Page</BreadcrumbItem>
+      </Breadcrumbs>
+    </>
   );
 }`}
                   language="jsx"
@@ -120,18 +130,8 @@ function MyForm() {
         <h2 className={`text-lg ${isDarkMode ? 'text-violet-300' : 'text-violet-600'} font-medium`}>Props for this component</h2>
         <div className='text-sm my-6 pl-2 ' >
           <dl className='flex flex-col gap-1'>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Max Size</dt>
-            <dd className='font-mono'>· {maxSizeProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Accepted File Types</dt>
-            <dd className='font-mono'>· {acceptedFileTypesProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>On File Select</dt>
-            <dd className='font-mono'>· {onFileSelectProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>On Upload</dt>
-            <dd className='font-mono'>· {onUploadProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Button Text</dt>
-            <dd className='font-mono'>· {buttonTextProp}</dd>
-            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Drag Drop Text</dt>
-            <dd className='font-mono'>· {dragDropTextProp}</dd>
+            <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>variant</dt>
+            <dd className='font-mono'>· {variantProp}</dd>
             <dt className={`font-semibold ${isDarkMode ? 'text-violet-400' : 'text-violet-700'}`}>Dark Mode</dt>
             <dd className='font-mono'>· {darkModeProp}</dd>
           </dl>
@@ -141,4 +141,4 @@ function MyForm() {
   );
 }
 
-export default FileUploadDoc;
+export default BreadCrumbsDoc;
